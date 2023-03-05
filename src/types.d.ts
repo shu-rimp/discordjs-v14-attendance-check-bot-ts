@@ -15,6 +15,13 @@ export interface Command {
     cooldown?: number,
 }
 
+export interface Users {
+    id: string,
+    name: string,
+    tag: string,
+    selectedAt: string
+}
+
 interface GuildOptions {
     prefix: string,
 }

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, CommandInteraction, Collection, PermissionResolvable, Message, AutocompleteInteraction } from "discord.js"
+import { SlashCommandBuilder, CommandInteraction, Collection, PermissionResolvable, Message, AutocompleteInteraction } from 'discord.js'
 
 export interface SlashCommand {
     command: SlashCommandBuilder | any,
@@ -39,12 +39,11 @@ declare global {
             TOKEN: string,
             CLIENT_ID: string,
             GUILD_ID: string,
-            EMBED_COLOR: string,
         }
     }
 }
 
-declare module "discord.js" {
+declare module 'discord.js' {
     export interface Client {
         slashCommands: Collection<string, SlashCommand>
         commands: Collection<string, Command>,

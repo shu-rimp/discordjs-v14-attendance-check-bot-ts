@@ -1,3 +1,5 @@
+const today = new Date().toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-');
+
 export const ButtonCustomId = {
     Attend: 'attend'
 }
@@ -21,8 +23,8 @@ export const PingContent = {
 }
 
 export const AttendContent = {
-    reply: '출첵하세요~',
-    replyAlreadyExists: 'user already exists!'
+    reply: '@here 출석체크 알리미',
+    replyAlreadyExists: '오늘은 이미 출석했어요!'
 }
 
 export const IntroContent = {
@@ -30,5 +32,10 @@ export const IntroContent = {
 }
 
 export const EmbedConfig = {
-    color: '#12d8b5'
+    color: '#2B2D31',
+    colorTopUser: '',
+    title: `📒 ${today} 출석부`,
+    titleTopUser: ``,
+    description: '스터디에 참여하실 분은 출석체크 해주세요! \n매월 말일 자정에 `🥇출석왕`을 선발합니다. \n 오늘 하루도 고생 많으셨습니다💜 \n',
+    descriptionTopUser: ''
 }

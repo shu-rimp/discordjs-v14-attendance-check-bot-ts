@@ -1,7 +1,7 @@
-import { SlashCommandBuilder, ButtonStyle, ButtonComponent, Collector, User, CollectorFilter, MessageCollector, MessageCollectorOptions } from 'discord.js'
+import { SlashCommandBuilder, ButtonStyle, ButtonComponent, Collector, User, CollectorFilter, MessageCollector, MessageCollectorOptions, ActionRowBuilder, ButtonBuilder } from 'discord.js'
 import { SlashCommand, Users } from '../types'
-import { ButtonCustomId, CommandName, CommandDescription, AttendContent } from '../objects'
-import { createEmbed } from '../functions/embeds'
+import { CommandName, CommandDescription, AttendContent } from '../objects'
+import { createEmbed, editEmbed } from '../functions/embeds'
 import { createButton } from '../functions/buttons'
 
 const command: SlashCommand = {
@@ -10,7 +10,7 @@ const command: SlashCommand = {
 		.setDescription(CommandDescription.Attend),
 	execute: async (interaction) => {
         let embed = createEmbed()
-        let button = createButton(ButtonStyle.Success)
+        let button = createButton(ButtonStyle.Primary)
 
 		const message = await interaction.reply({
             content: AttendContent.reply,
@@ -18,7 +18,7 @@ const command: SlashCommand = {
             components: [ button ]
         });
 
-        const collector = message.createMessageComponentCollector({ time: 5000 })
+        const collector = message.createMessageComponentCollector({ time: 10000 })
         const users: Users[] = []
 
         collector.on('collect', async interaction => {
@@ -29,7 +29,7 @@ const command: SlashCommand = {
             
             if ( userIds.includes(interaction.user.id) ) {
                 interaction.reply({ content: AttendContent.replyAlreadyExists, ephemeral: true })
-                setTimeout(() => interaction.deleteReply(), 4000);
+                setTimeout(() => interaction.deleteReply(), 3000);
 
                 return
             }
@@ -44,17 +44,11 @@ const command: SlashCommand = {
 
             users.push(user)
 
-            await interaction.update({
-                content: `${interaction.user.username}#${interaction.user.discriminator}`
-            })
+            embed = editEmbed(users)
+            await interaction.update({ embeds: [ embed ] })
         })
 
-        collector.on('end', collected => {
-            users.forEach( value => {
-                console.log(value)
-            })
-            users.length = 0
-        })
+        collector.on('end', () => { users.length = 0 })
 	},
     cooldown: 0
 }

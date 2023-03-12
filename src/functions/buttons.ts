@@ -7,5 +7,6 @@ export const createButton = (style: ButtonStyle) => {
                 .setCustomId('attend')
                 .setLabel('출석하기')
                 .setStyle(style)
+                .setEmoji('🙋')
     )
 }

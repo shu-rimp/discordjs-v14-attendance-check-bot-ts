@@ -39,6 +39,7 @@ declare global {
             TOKEN: string,
             CLIENT_ID: string,
             GUILD_ID: string,
+            CHANNEL_ID: string,
         }
     }
 }

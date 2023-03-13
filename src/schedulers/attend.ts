@@ -1,14 +1,14 @@
-import { GuildBasedChannel, CommandInteraction, ButtonStyle, ButtonComponent, Collector, User, CollectorFilter, MessageCollector, MessageCollectorOptions } from 'discord.js'
+import { GuildBasedChannel, CommandInteraction, ButtonStyle, ButtonComponent, Collector, User, CollectorFilter, MessageCollector, MessageCollectorOptions, TextChannel } from 'discord.js'
 import { Users } from '../types'
 import { ButtonCustomId, CommandName, CommandDescription, AttendContent } from '../objects'
-import { createEmbed } from '../functions/embeds'
+import { createEmbed, editEmbed } from '../functions/embeds'
 import { createButton } from '../functions/buttons'
 
-const sendMessage = async (interaction: CommandInteraction) => {
+const sendMessage = async (channel: TextChannel) => {
     let embed = createEmbed()
-    let button = createButton(ButtonStyle.Success)
+    let button = createButton(ButtonStyle.Primary)
 
-    const message = await interaction.reply({
+    const message = await channel.send({
         content: AttendContent.reply,
         embeds: [embed],
         components: [button]
@@ -25,7 +25,7 @@ const sendMessage = async (interaction: CommandInteraction) => {
 
         if (userIds.includes(interaction.user.id)) {
             interaction.reply({ content: AttendContent.replyAlreadyExists, ephemeral: true })
-            setTimeout(() => interaction.deleteReply(), 4000);
+            setTimeout(() => interaction.deleteReply(), 3000);
 
             return
         }
@@ -40,17 +40,11 @@ const sendMessage = async (interaction: CommandInteraction) => {
 
         users.push(user)
 
-        await interaction.update({
-            content: `${interaction.user.username}#${interaction.user.discriminator}`
-        })
+        embed = editEmbed(users)
+        await interaction.update({ embeds: [embed] })
     })
 
-    collector.on('end', collected => {
-        users.forEach(value => {
-            console.log(value)
-        })
-        users.length = 0
-    })
+    collector.on('end', () => { users.length = 0 })
 }
 
 export default sendMessage

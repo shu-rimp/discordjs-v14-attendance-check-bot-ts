@@ -15,7 +15,7 @@ const event: BotEvent = {
 			const guild = client.guilds.cache.get(process.env.GUILD_ID)
 			const channel = guild?.channels.cache.get(process.env.CHANNEL_ID) as TextChannel
 			
-			channel.send('scheduled msg!')
+			sendMessage(channel)
 		})
 
 		scheduledMessage.start()

@@ -36,6 +36,6 @@ export const EmbedConfig = {
     colorTopUser: '',
     title: `📒 ${today} 출석부`,
     titleTopUser: ``,
-    description: '스터디에 참여하실 분은 출석체크 해주세요! \n매월 말일 자정에 `🥇출석왕`을 선발합니다. \n 오늘 하루도 고생 많으셨습니다💜 \n',
+    description: '스터디에 참여하실 분은 출석체크 해주세요. \n매월 말일 자정에 `🥇출석왕`을 선발합니다. \n 오늘 하루도 고생 많으셨습니다! 💜 \n\n',
     descriptionTopUser: ''
 }

@@ -40,6 +40,14 @@ declare global {
             CLIENT_ID: string,
             GUILD_ID: string,
             CHANNEL_ID: string,
+            SQLITE_DATABASE: string,
+            SQLITE_TABLE: string,
+            SQLITE_USER: string,
+            SQLITE_PASSWORD: string,
+            SEQUELIZE_HOST: string,
+            SEQUELIZE_DIALECT: Dialect,
+            SEQUELIZE_LOGGING: boolean,
+            SEQUELIZE_STORAGE: string
         }
     }
 }

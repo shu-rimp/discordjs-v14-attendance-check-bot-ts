@@ -3,6 +3,7 @@ import { Users } from '../types'
 import { ButtonCustomId, CommandName, CommandDescription, AttendContent } from '../objects'
 import { createEmbed, editEmbed } from '../functions/embeds'
 import { createButton } from '../functions/buttons'
+import { Usertable } from '../database/sequelizeConfig'
 
 const sendMessage = async (channel: TextChannel) => {
     let embed = createEmbed()
@@ -44,7 +45,36 @@ const sendMessage = async (channel: TextChannel) => {
         await interaction.update({ embeds: [embed] })
     })
 
-    collector.on('end', () => { users.length = 0 })
+    collector.on('end', () => { 
+        users.map( async user => {
+            try {
+                const userRow = await Usertable.create({
+                    server_id: process.env.GUILD_ID,
+                    user_id: user.id,
+                    user_name: user.name,
+                    user_tag: user.tag,
+                    created_at: user.selectedAt,
+                    updated_at: Date()
+                });
+
+                console.log(`userRow added.`)
+            }
+            catch (error) {
+                let message
+                if (error instanceof Error) {
+                    message = error.message
+                    if (error.name === 'SequelizeUniqueConstraintError') {
+                        console.error('That tag already exists.')
+                    }
+                }
+                else message = String(error)
+              
+                console.error(message)
+            }
+        })
+        
+        users.length = 0 
+    })
 }
 
 export default sendMessage

@@ -2,15 +2,17 @@ import { CommandInteraction, Client, Events, TextChannel } from 'discord.js'
 import { BotEvent } from '../types'
 import cron from 'cron'
 import sendMessage from '../schedulers/attend'
+import { Usertable } from '../database/sequelizeConfig'
 
 const event: BotEvent = {
 	name: Events.ClientReady,
 	once: true,
 	execute: (client: Client) => {
+		Usertable.sync()
 		console.log(`Ready! Logged in as ${client.user?.tag}`)
 
 		// cron: 0 21 * * 1-5
-		const scheduledMessage = new cron.CronJob('0/10 * * * * *', () => {
+		const scheduledMessage = new cron.CronJob('0/30 * * * * *', () => {
 			// TODO: execute function with channel
 			const guild = client.guilds.cache.get(process.env.GUILD_ID)
 			const channel = guild?.channels.cache.get(process.env.CHANNEL_ID) as TextChannel

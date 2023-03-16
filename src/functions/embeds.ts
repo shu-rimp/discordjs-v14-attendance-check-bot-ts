@@ -8,6 +8,7 @@ export const createEmbed = () => {
         .setTitle(EmbedConfig.title)
         .setDescription(EmbedConfig.description)
         .addFields(
+            { name: '------------------------------------------------', value: ' '},
             { name: '이름', value: ' ', inline: true },
             { name: '출석시간', value: ' ', inline: true }
         )
@@ -37,6 +38,7 @@ export const editEmbed = (userValues: Users[]) => {
         .setTitle(EmbedConfig.title)
         .setDescription(EmbedConfig.description)
         .addFields(
+            { name: '------------------------------------------------', value: ' '},
             { name: '이름', value: userNames, inline: true },
             { name: '출석시간', value: attendDates, inline: true }
         )

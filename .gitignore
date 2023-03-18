@@ -3,4 +3,4 @@ build
 .env
 .vscode
 .eslintrc.json
-*.sqlite
+**/*.sqlite

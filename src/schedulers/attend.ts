@@ -1,9 +1,10 @@
-import { GuildBasedChannel, CommandInteraction, ButtonStyle, ButtonComponent, Collector, User, CollectorFilter, MessageCollector, MessageCollectorOptions, TextChannel } from 'discord.js'
+import { ButtonStyle, TextChannel } from 'discord.js'
 import { Users } from '../types'
-import { ButtonCustomId, CommandName, CommandDescription, AttendContent } from '../objects'
+import { AttendContent } from '../objects'
 import { createEmbed, editEmbed } from '../functions/embeds'
 import { createButton } from '../functions/buttons'
-import { Usertable } from '../database/sequelizeConfig'
+import { UserModel } from '../database/sequelizeConfig'
+import { getErrorMessage } from '../functions/errorHandler'
 
 const sendMessage = async (channel: TextChannel) => {
     let embed = createEmbed()
@@ -19,10 +20,7 @@ const sendMessage = async (channel: TextChannel) => {
     const users: Users[] = []
 
     collector.on('collect', async interaction => {
-        const userIds = users.map(value => {
-            const userId = value.id
-            return userId
-        })
+        const userIds = users.map(value => value.id)
 
         if (userIds.includes(interaction.user.id)) {
             interaction.reply({ content: AttendContent.replyAlreadyExists, ephemeral: true })
@@ -47,32 +45,25 @@ const sendMessage = async (channel: TextChannel) => {
 
     collector.on('end', () => { 
         users.map( async user => {
-            try {
-                const userRow = await Usertable.create({
-                    server_id: process.env.GUILD_ID,
-                    user_id: user.id,
-                    user_name: user.name,
-                    user_tag: user.tag,
-                    created_at: user.selectedAt,
-                    updated_at: Date()
-                });
+            const foundUser = await UserModel.findOne({ where: { server_id: process.env.GUILD_ID, user_id: user.id } })
 
-                console.log(`userRow added.`)
-            }
-            catch (error) {
-                let message
-                if (error instanceof Error) {
-                    message = error.message
-                    if (error.name === 'SequelizeUniqueConstraintError') {
-                        console.error('That tag already exists.')
-                    }
+            if (foundUser) {
+                foundUser.increment('attendance_count')
+            } else {
+                try {
+                    await UserModel.create({
+                        server_id: process.env.GUILD_ID,
+                        user_id: user.id,
+                        user_name: user.name,
+                        user_tag: user.tag,
+                    });
+    
+                    console.log(`userRow added.`)
+                } catch (error) {
+                    console.error(getErrorMessage(error))
                 }
-                else message = String(error)
-              
-                console.error(message)
             }
         })
-        
         users.length = 0 
     })
 }

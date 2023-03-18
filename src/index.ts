@@ -1,8 +1,8 @@
+import { Client, Collection, GatewayIntentBits } from 'discord.js'
+import { config } from 'dotenv'
 import { readdirSync } from 'fs'
-import { Client, Collection, GatewayIntentBits, PermissionFlagsBits } from 'discord.js'
 import { join } from 'path'
 import { SlashCommand } from './types'
-import { config } from 'dotenv'
 config()
 
 const { Guilds, MessageContent, GuildMessages, GuildMembers } = GatewayIntentBits

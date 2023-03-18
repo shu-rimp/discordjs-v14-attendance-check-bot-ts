@@ -20,6 +20,10 @@ export const UserModel = sequelize.define(process.env.SQLITE_TABLE, {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
+	user_display_name: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
 	user_tag: {
 		type: DataTypes.STRING,
 		allowNull: false,
@@ -29,4 +33,4 @@ export const UserModel = sequelize.define(process.env.SQLITE_TABLE, {
 		defaultValue: 1,
 		allowNull: false,
 	}
-});
+})

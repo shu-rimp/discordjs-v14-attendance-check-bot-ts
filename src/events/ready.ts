@@ -1,10 +1,9 @@
-import { CommandInteraction, Client, Events, TextChannel } from 'discord.js'
-import { BotEvent } from '../types'
 import cron from 'cron'
+import { Client, Events, TextChannel } from 'discord.js'
+import { UserModel } from '../database/sequelizeConfig'
 import sendMessage from '../schedulers/attend'
 import sendMessageOverview from '../schedulers/attendOverview'
-import { UserModel } from '../database/sequelizeConfig'
-import { Sequelize } from 'sequelize'
+import { BotEvent } from '../types'
 
 const event: BotEvent = {
 	name: Events.ClientReady,

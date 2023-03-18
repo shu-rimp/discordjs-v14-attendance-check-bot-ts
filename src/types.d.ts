@@ -15,11 +15,23 @@ export interface Command {
     cooldown?: number,
 }
 
-export interface Users {
+export interface User {
     id: string,
     name: string,
+    displayName: string,
     tag: string,
-    selectedAt: string
+    selectedAt: string,
+}
+
+export interface UserRow {
+    server_id: string,
+    user_id: string,
+    user_name: string,
+    user_display_name: string,
+    user_tag: string,
+    attendance_count: number,
+    created_at: Date,
+    updated_at: Date
 }
 
 interface GuildOptions {
@@ -40,6 +52,14 @@ declare global {
             CLIENT_ID: string,
             GUILD_ID: string,
             CHANNEL_ID: string,
+            SQLITE_DATABASE: string,
+            SQLITE_TABLE: string,
+            SQLITE_USER: string,
+            SQLITE_PASSWORD: string,
+            SEQUELIZE_HOST: string,
+            SEQUELIZE_DIALECT: Dialect,
+            SEQUELIZE_LOGGING: boolean,
+            SEQUELIZE_STORAGE: string
         }
     }
 }

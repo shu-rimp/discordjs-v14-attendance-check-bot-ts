@@ -6,7 +6,7 @@ import { getErrorMessage } from '../functions/errorHandler'
 import { AttendContent, EmbedConfig } from '../objects'
 import { User } from '../types'
 
-const sendMessage = async (channel: TextChannel) => {
+const sendMessage = async (channel: TextChannel, guildId: string) => {
     let embed = createEmbed()
     let button = createButton(ButtonStyle.Primary)
     const file = new AttachmentBuilder(EmbedConfig.thumbnailPath)
@@ -51,7 +51,7 @@ const sendMessage = async (channel: TextChannel) => {
         users.map( async user => {
             const foundUser = await UserModel.findOne({ 
                 where: { 
-                    server_id: process.env.GUILD_ID, 
+                    server_id: guildId, 
                     user_id: user.id 
                 } })
 
@@ -60,7 +60,7 @@ const sendMessage = async (channel: TextChannel) => {
             } else {
                 try {
                     await UserModel.create({
-                        server_id: process.env.GUILD_ID,
+                        server_id: guildId,
                         user_id: user.id,
                         user_name: user.name,
                         user_display_name: user.displayName,

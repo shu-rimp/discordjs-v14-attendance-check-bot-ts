@@ -33,6 +33,11 @@ export const IntroContent = {
 
 }
 
+export const SetupContent = {
+    replyComplete: '출석부 셋업을 완료했어요!',
+    replyAlreadyExists: '셋업 명령어는 서버 당 1회만 사용할 수 있어요! 다른 채널을 선택하려면 봇을 내보내고 다시 초대 해주세요.'
+}
+
 export const EmbedConfig = {
     color: '#5B65EA',
     colorOverview: '#ffc012',

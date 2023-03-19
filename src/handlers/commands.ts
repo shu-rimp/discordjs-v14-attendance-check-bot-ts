@@ -20,7 +20,7 @@ module.exports = (client : Client) => {
     const rest = new REST({version: '10'}).setToken(process.env.TOKEN)
 
     // TODO: change commands global when production env
-    rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID), {
+    rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
         body: slashCommands.map(command => command.toJSON())
     })
     .then((data : any) => {

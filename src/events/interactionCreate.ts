@@ -1,12 +1,15 @@
-import { Interaction, Events } from 'discord.js'
+import { Events, Interaction } from 'discord.js'
+import { CommandName, SetupContent } from '../objects'
 import { BotEvent } from '../types'
 
+let guilds: string[] = []
 const event: BotEvent = {
 	name: Events.InteractionCreate,
 	execute: (interaction: Interaction) => {
 		if (interaction.isChatInputCommand()) {
             let command = interaction.client.slashCommands.get(interaction.commandName)
             let cooldown = interaction.client.cooldowns.get(`${interaction.commandName}-${interaction.user.username}`)
+
             if (!command) return
             if (command.cooldown && cooldown) {
                 if (Date.now() < cooldown) {
@@ -21,6 +24,15 @@ const event: BotEvent = {
             } else if (command.cooldown && !cooldown) {
                 interaction.client.cooldowns.set(`${interaction.commandName}-${interaction.user.username}`, Date.now() + command.cooldown * 1000)
             }
+            if (interaction.commandName === CommandName.Setup) {
+                const guildId = interaction.guildId!!
+                if (guilds.includes(guildId)) {
+                    interaction.reply({ content: SetupContent.replyAlreadyExists, ephemeral: true })
+                    setTimeout(() => interaction.deleteReply(), 3000);
+                    return
+                }
+                guilds.push(guildId)
+            }
             command.execute(interaction)
         } else if (interaction.isAutocomplete()) {
             const command = interaction.client.slashCommands.get(interaction.commandName)
@@ -34,7 +46,7 @@ const event: BotEvent = {
             } catch (error) {
                 console.error(error)
             }
-        }
+        } 
 	}
 }
 

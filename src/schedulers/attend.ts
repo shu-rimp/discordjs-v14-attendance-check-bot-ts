@@ -1,23 +1,25 @@
-import { ButtonStyle, TextChannel } from 'discord.js'
-import { Users } from '../types'
-import { AttendContent } from '../objects'
-import { createEmbed, editEmbed } from '../functions/embeds'
-import { createButton } from '../functions/buttons'
+import { AttachmentBuilder, ButtonStyle, TextChannel } from 'discord.js'
 import { UserModel } from '../database/sequelizeConfig'
+import { createButton } from '../functions/buttons'
+import { createEmbed, editEmbed } from '../functions/embeds'
 import { getErrorMessage } from '../functions/errorHandler'
+import { AttendContent, EmbedConfig } from '../objects'
+import { User } from '../types'
 
 const sendMessage = async (channel: TextChannel) => {
     let embed = createEmbed()
     let button = createButton(ButtonStyle.Primary)
+    const file = new AttachmentBuilder(EmbedConfig.thumbnailPath)
 
     const message = await channel.send({
         content: AttendContent.reply,
         embeds: [embed],
-        components: [button]
+        components: [button],
+        files: [ file ]
     });
 
     const collector = message.createMessageComponentCollector({ time: 5000 })
-    const users: Users[] = []
+    const users: User[] = []
 
     collector.on('collect', async interaction => {
         const userIds = users.map(value => value.id)
@@ -28,11 +30,10 @@ const sendMessage = async (channel: TextChannel) => {
 
             return
         }
-
-        console.log(interaction)
-        const user: Users = {
+        const user: User = {
             id: interaction.user.id,
             name: interaction.user.username,
+            displayName: interaction.member.displayName,
             tag: interaction.user.discriminator,
             selectedAt: new Date().toLocaleTimeString()
         }
@@ -43,9 +44,16 @@ const sendMessage = async (channel: TextChannel) => {
         await interaction.update({ embeds: [embed] })
     })
 
-    collector.on('end', () => { 
+    collector.on('end', async () => { 
+        button.components[0].setDisabled(true)
+        await message.edit({ components: [ button ] })
+
         users.map( async user => {
-            const foundUser = await UserModel.findOne({ where: { server_id: process.env.GUILD_ID, user_id: user.id } })
+            const foundUser = await UserModel.findOne({ 
+                where: { 
+                    server_id: process.env.GUILD_ID, 
+                    user_id: user.id 
+                } })
 
             if (foundUser) {
                 foundUser.increment('attendance_count')
@@ -55,6 +63,7 @@ const sendMessage = async (channel: TextChannel) => {
                         server_id: process.env.GUILD_ID,
                         user_id: user.id,
                         user_name: user.name,
+                        user_display_name: user.displayName,
                         user_tag: user.tag,
                     });
     

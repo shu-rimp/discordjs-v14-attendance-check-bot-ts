@@ -43,6 +43,6 @@ export const EmbedConfig = {
     thumbnailOverviewPath: 'src/img/1103-confetti-flat.gif',
     thumbnailOverview: 'attachment://1103-confetti-flat.gif',
     description: '스터디 참여 시 출석체크 해주세요.\n매월 말일 자정에 `🥇출석왕`을 선발합니다.\n오늘 하루도 고생 많으셨습니다!💜',
-    descriptionOverview: '이번 달 출석을 가장 많이 한 분이에요! 모두 축하해주세요🥳',
+    descriptionOverview: '이번 달 참여를 가장 많이 한 분이에요! 모두 축하해주세요🥳',
     footer: '출석버튼은 00시에 비활성화 됩니다.'
 }

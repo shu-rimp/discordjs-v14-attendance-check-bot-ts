@@ -1,8 +1,6 @@
-import { AttachmentBuilder, TextChannel, User } from 'discord.js'
-import { Model } from 'sequelize'
+import { AttachmentBuilder, TextChannel } from 'discord.js'
 import { UserModel } from '../database/sequelizeConfig'
 import { createTopUserEmbed } from '../functions/embeds'
-import { getErrorMessage } from '../functions/errorHandler'
 import { EmbedConfig } from '../objects'
 import { UserRow } from '../types'
 
@@ -24,7 +22,10 @@ const sendMessageOverview = async (channel: TextChannel) => {
         })
     
     const embed = createTopUserEmbed(foundUsers)   
-    await channel.send({ embeds: [ embed ], files: [ file ] });
+    await channel.send({ embeds: [ embed ], files: [ file ] })
+
+    const deletedCount = await UserModel.destroy({ where: { server_id: process.env.GUILD_ID } })
+    console.log(`${deletedCount} rows deleted.`)
 }
 
 export default sendMessageOverview

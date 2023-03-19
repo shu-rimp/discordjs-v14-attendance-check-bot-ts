@@ -30,8 +30,6 @@ const sendMessage = async (channel: TextChannel) => {
 
             return
         }
-
-        console.log(interaction)
         const user: User = {
             id: interaction.user.id,
             name: interaction.user.username,

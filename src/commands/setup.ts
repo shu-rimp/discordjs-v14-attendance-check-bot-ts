@@ -21,14 +21,16 @@ const command: SlashCommand = {
             const selectedChannel = interaction.client.channels.cache.get(selectedChannelId) as TextChannel
 
 			// cron: 0 21 * * 1-5
-            const scheduledMessage = new cron.CronJob('45 22 * * *', () => sendMessage(selectedChannel, guildId))
-			const scheduledMessageOverview = new cron.CronJob('47 22 * * *', () => sendMessageOverview(selectedChannel, guildId))
+            const scheduledMessage = new cron.CronJob('0 21 * * 1-5', () => sendMessage(selectedChannel, guildId))
+			const scheduledMessageOverview = new cron.CronJob('3 0 * * 1-5', () => sendMessageOverview(selectedChannel, guildId))
 
             scheduledMessage.start()
 			scheduledMessageOverview.start()
 
 			await interaction.update({ content: SetupContent.replyComplete, components: [] })
 			setTimeout(() => interaction.deleteReply(), 3000);
+
+			collector.stop()
 		})
 	},
 	cooldown: 0

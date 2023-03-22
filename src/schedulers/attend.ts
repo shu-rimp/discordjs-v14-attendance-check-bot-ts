@@ -18,7 +18,8 @@ const sendMessage = async (channel: TextChannel, guildId: string) => {
         files: [ file ]
     });
 
-    const collector = message.createMessageComponentCollector({ time: 5000 })
+    // 10800000: 3hr
+    const collector = message.createMessageComponentCollector({ time: 10800000 })
     const users: User[] = []
 
     collector.on('collect', async interaction => {

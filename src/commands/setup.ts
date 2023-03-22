@@ -12,7 +12,7 @@ const command: SlashCommand = {
 		.setDescription(CommandDescription.Setup),
 	execute: async (interaction) => {
 		let selectMenus = createChannelSelectMenu()
-		const message = await interaction.reply({ components: [ selectMenus ] })
+		const message = await interaction.reply({ content: SetupContent.reply, components: [ selectMenus ] })
 		
 		const collector = message.createMessageComponentCollector({ componentType: ComponentType.ChannelSelect })
 		collector.once('collect', async interaction => {

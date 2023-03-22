@@ -34,8 +34,9 @@ export const IntroContent = {
 }
 
 export const SetupContent = {
-    replyComplete: '출석부 셋업을 완료했어요!',
-    replyAlreadyExists: '셋업 명령어는 서버 당 1회만 사용할 수 있어요! 다른 채널을 선택하려면 봇을 내보내고 다시 초대 해주세요.'
+    reply: '```출석부 세팅을 시작합니다.\n아래 채널 리스트에서 출석부를 보낼 채널을 선택해주세요.\n/셋업 명령어는 서버 당 1회만 사용할 수 있습니다.```',
+    replyComplete: '```출석부 셋업을 완료했어요!```',
+    replyAlreadyExists: '출석부가 이미 존재해요!\n다른 채널에 셋업을 원하시면 봇을 내보내고 다시 초대 해주세요.'
 }
 
 export const EmbedConfig = {

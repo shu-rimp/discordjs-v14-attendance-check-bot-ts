@@ -1,6 +1,10 @@
-const today = new Date().toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-');
-const currentMonth = new Date().getMonth() + 1
-const currentDate = new Date().getDate()
+const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "numeric", day: "numeric" }
+const date = new Date()
+const today = date.toLocaleDateString('ko-KR', options).replace(/\./g, '').replace(/\s/g, '-')
+const currentDate = date.getDate()
+
+let previousMonth = date.getMonth()
+if (previousMonth == 0) previousMonth += 12
 
 export const ButtonCustomId = {
     Attend: 'attend'
@@ -43,7 +47,7 @@ export const EmbedConfig = {
     color: '#5B65EA',
     colorOverview: '#ffc012',
     title: `📒 ${today} 출석부`,
-    titleOverview: `🥇 ${currentMonth}월 출석왕`,
+    titleOverview: `🥇 ${previousMonth}월 출석왕`,
     thumbnailPath: `src/img/calendar-date-${currentDate}.png`,
     thumbnail: `attachment://calendar-date-${currentDate}.png`,
     thumbnailOverviewPath: 'src/img/1103-confetti-flat.gif',
